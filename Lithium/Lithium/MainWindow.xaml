@@ -1,0 +1,163 @@
+﻿<metro:MetroWindow x:Class="Lithium.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Lithium"
+        xmlns:material="http://materialdesigninxaml.net/winfx/xaml/themes"
+        xmlns:metro="http://metro.mahapps.com/winfx/xaml/controls"
+        mc:Ignorable="d"
+        Height="600" 
+        Width="1200"
+        MinHeight="600"
+        MinWidth="1200"
+        ResizeMode="CanResizeWithGrip"
+        RightWindowCommandsOverlayBehavior="HiddenTitleBar"
+        SaveWindowPosition="False"
+        WindowStartupLocation="CenterScreen"
+        ShowTitleBar="True"
+        ShowIconOnTitleBar="True"
+        ShowCloseButton="True"
+        ShowMaxRestoreButton="True"
+        ShowMinButton="True"
+        ShowSystemMenuOnRightClick="False"
+        ShowInTaskbar="True"
+        ShowActivated="True"
+        TitleCharacterCasing="Normal"
+        TitleAlignment="Left"
+        Name="Root"
+        TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+        Background="{DynamicResource MaterialDesignPaper}"
+        FontFamily="pack://application:,,,/MaterialDesignThemes.Wpf;component/Resources/Roboto/#Roboto"
+        WindowTransitionsEnabled="True"
+        GlowBrush="{DynamicResource AccentColorBrush}"
+        NonActiveGlowBrush="{DynamicResource DisabledMenuItemForeground}"
+        DataContext="{Binding RelativeSource={RelativeSource Mode=Self}}">
+    <metro:MetroWindow.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="Fontawesome.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </metro:MetroWindow.Resources>
+    <metro:MetroWindow.RightWindowCommands>
+        <metro:WindowCommands>
+            <Button Click="TabcMain_callback" ToolTip="Navigate to the home window." Tag="0">
+                <StackPanel Orientation="Horizontal">
+                    <Rectangle Width="20" Height="20" Fill="{Binding RelativeSource={RelativeSource AncestorType=Button}, Path=Foreground}">
+                        <Rectangle.OpacityMask>
+                            <VisualBrush Stretch="Fill" Visual="{StaticResource fa_home}" />
+                        </Rectangle.OpacityMask>
+                    </Rectangle>
+                    <TextBlock Margin="4,0,0,0" VerticalAlignment="Center" Text="Home" />
+                </StackPanel>
+            </Button>
+            <Button Click="TabcMain_callback" ToolTip="Navigate to the calendar and statistics window." Tag="1">
+                <StackPanel Orientation="Horizontal">
+                    <Rectangle Width="20" Height="20" Fill="{Binding RelativeSource={RelativeSource AncestorType=Button}, Path=Foreground}">
+                        <Rectangle.OpacityMask>
+                            <VisualBrush Stretch="Fill" Visual="{StaticResource fa_calendar}" />
+                        </Rectangle.OpacityMask>
+                    </Rectangle>
+                    <TextBlock Margin="4,0,0,0" VerticalAlignment="Center" Text="Calendar" />
+                </StackPanel>
+            </Button>
+        </metro:WindowCommands>
+    </metro:MetroWindow.RightWindowCommands>
+    <metro:MetroAnimatedTabControl Name="TabcMain" SelectedIndex="0" metro:TabControlHelper.Transition="Left">
+        <metro:MetroTabItem>
+            <Grid>
+                <material:DialogHost Name="PopupAddCustom" HorizontalAlignment="Center" VerticalAlignment="Center" >
+                    <material:DialogHost.DialogContent>
+                        <StackPanel Margin="16" Orientation="Vertical">
+                            <Label Content="Add a new period" FontSize="16" />
+                            <DatePicker SelectedDate="{Binding SelectedPeriodDate}" />
+                            <StackPanel Orientation="Horizontal">
+                                <Button Content="ACCEPT" Style="{DynamicResource MaterialDesignFlatButton}" IsDefault="True" Margin="0,8,8,0" Command="material:DialogHost.CloseDialogCommand" CommandParameter="True" CommandTarget="{Binding ElementName=PopupAddCustom}" />
+                                <Button Content="CANCEL" Style="{DynamicResource MaterialDesignFlatButton}" IsCancel="True" Margin="0,8,8,0" Command="material:DialogHost.CloseDialogCommand" CommandParameter="False" CommandTarget="{Binding ElementName=PopupAddCustom}" />
+                            </StackPanel>
+                        </StackPanel>
+                    </material:DialogHost.DialogContent>
+                </material:DialogHost>
+                <StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center">
+                    <Label Content="Lithium" FontWeight="Light" FontSize="112" HorizontalAlignment="Center" />
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                        <Button MinWidth="120" Margin="10" Style="{StaticResource MaterialDesignRaisedAccentButton}" ToolTip="Add a period" Command="{x:Static material:DialogHost.OpenDialogCommand}" CommandTarget="{Binding ElementName=PopupAddCustom}"  >
+                            <StackPanel Orientation="Horizontal">
+                                <Rectangle Width="20" Height="20" Fill="{Binding RelativeSource={RelativeSource AncestorType=Button}, Path=Foreground}">
+                                    <Rectangle.OpacityMask>
+                                        <VisualBrush Stretch="Fill" Visual="{StaticResource fa_plus}" />
+                                    </Rectangle.OpacityMask>
+                                </Rectangle>
+                                <TextBlock Margin="10,0,0,0" VerticalAlignment="Center" Text="Add" />
+                            </StackPanel>
+                        </Button>
+                        <Button MinWidth="120" Margin="10" Style="{StaticResource MaterialDesignRaisedAccentButton}" ToolTip="View the calendar and statistics." Click="TabcMain_callback" Tag="1">
+                            <StackPanel Orientation="Horizontal">
+                                <Rectangle Width="20" Height="20" Fill="{Binding RelativeSource={RelativeSource AncestorType=Button}, Path=Foreground}">
+                                    <Rectangle.OpacityMask>
+                                        <VisualBrush Stretch="Fill" Visual="{StaticResource fa_calendar}" />
+                                    </Rectangle.OpacityMask>
+                                </Rectangle>
+                                <TextBlock Margin="10,0,0,0" VerticalAlignment="Center" Text="Calendar" />
+                            </StackPanel>
+                        </Button>
+                    </StackPanel>
+                </StackPanel>
+            </Grid>
+        </metro:MetroTabItem>
+        <metro:MetroTabItem>
+            <StackPanel Orientation="Vertical" Margin="10,0,10,10">
+                <Label Content="Calendar and statistics" FontSize="34" FontWeight="Light" BorderBrush="Black" BorderThickness="0,0,0,1" />
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="10,60,10,10">
+                    <material:Card Width="420" Height="400" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,50,0">
+                        <StackPanel Orientation="Vertical" Margin="10,0,10,10">
+                            <Label Content="Periods" BorderThickness="0,0,0,1" BorderBrush="Black" FontSize="24" FontWeight="Light" />
+                            <ListView ItemsSource="{Binding PeriodDateFormatted, Mode=OneWay}" Margin="0,5,0,0" BorderThickness="0" >
+                                <ListView.ItemTemplate>
+                                    <DataTemplate>
+                                        <Label Content="{Binding}">
+                                            <Label.ContextMenu>
+                                                <ContextMenu>
+                                                    <Button ToolTip="Remove the currently selected period from the dataset" Tag="{Binding}" Click="PeriodsRemove_OnClick" Style="{DynamicResource MaterialDesignFlatButton}">
+                                                        <StackPanel Orientation="Horizontal">
+                                                            <Rectangle Width="20" Height="20" Fill="{Binding RelativeSource={RelativeSource AncestorType=Button}, Path=Foreground}">
+                                                                <Rectangle.OpacityMask>
+                                                                    <VisualBrush Stretch="Fill" Visual="{StaticResource fa_trash}" />
+                                                                </Rectangle.OpacityMask>
+                                                            </Rectangle>
+                                                            <TextBlock Margin="4,0,0,0" VerticalAlignment="Center" Text="REMOVE" />
+                                                        </StackPanel>
+                                                    </Button>
+                                                </ContextMenu>
+                                            </Label.ContextMenu>
+                                        </Label>
+                                    </DataTemplate>
+                                </ListView.ItemTemplate>
+                            </ListView>
+                        </StackPanel>
+                    </material:Card>
+                    <material:Card Width="420" Height="400" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="50,0,0,0">
+                        <DockPanel Margin="10,0,10,10">
+                            <StackPanel Orientation="Vertical" DockPanel.Dock="Top">
+                                <Label Content="Statistics" BorderThickness="0,0,0,1" BorderBrush="Black" FontSize="24" FontWeight="Light" />
+                                <ListView ItemsSource="{Binding Statistics, Mode=OneWay}" Margin="0,5,0,0" BorderThickness="0">
+                                    <ListView.ItemTemplate>
+                                        <DataTemplate>
+                                            <Label Content="{Binding}" />
+                                        </DataTemplate>
+                                    </ListView.ItemTemplate>
+                                </ListView>
+                            </StackPanel>
+                            <UniformGrid Rows="1" Columns="3" VerticalAlignment="Bottom" DockPanel.Dock="Bottom">
+                                <Label Content="{Binding DisplayAverage}" HorizontalContentAlignment="Center" />
+                                <Label Content="{Binding DisplayMax}" HorizontalContentAlignment="Center" />
+                                <Label Content="{Binding DisplayMin}" HorizontalContentAlignment="Center" />
+                            </UniformGrid>
+                        </DockPanel>
+                    </material:Card>
+                </StackPanel>
+            </StackPanel>
+        </metro:MetroTabItem>
+    </metro:MetroAnimatedTabControl>
+</metro:MetroWindow>
